@@ -1,0 +1,252 @@
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| em1                |
+| ems                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+6 rows in set (0.02 sec)
+
+mysql> USE EM1;
+Database changed
+mysql> SHOW TABLES;
++---------------+
+| Tables_in_em1 |
++---------------+
+| emp           |
+| employees     |
++---------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM EMP;
++-------+--------+-----------+------+------------+---------+---------+--------+------+
+| EMPNO | ENAME  | JOB       | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO | AGE  |
++-------+--------+-----------+------+------------+---------+---------+--------+------+
+|  7369 | SMITH  | CLERK     | 7902 | NULL       |  800.00 |    NULL |     20 |   90 |
+|  7499 | ALLEN  | SALESMAN  | 7698 | 1981-02-20 | 1600.00 |  300.00 |     30 | NULL |
+|  7521 | WARD   | SALESMAN  | 7698 | 1981-02-22 | 1250.00 |  500.00 |     30 | NULL |
+|  7566 | JONES  | MANAGER   | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 | NULL |
+|  7654 | MARTIN | SALESMAN  | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 | NULL |
+|  7698 | BLAKE  | MANAGER   | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 | NULL |
+|  7782 | CLARK  | MANAGER   | 7839 | 1981-06-09 | 2450.00 |    NULL |     10 | NULL |
+|  7788 | SCOTT  | ANALYST   | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 | NULL |
+|  7839 | KING   | PRESIDENT | NULL | 1981-11-17 | 5000.00 |    NULL |     10 | NULL |
+|  7844 | TURNER | SALESMAN  | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 | NULL |
+|  7876 | ADAMS  | CLERK     | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 | NULL |
+|  7900 | JAMES  | CLERK     | 7698 | 1981-12-03 |  950.00 |    NULL |     30 | NULL |
+|  7902 | FORD   | ANALYST   | 7566 | 1981-12-03 | 3000.00 |    NULL |     20 | NULL |
+|  7934 | MILLER | CLERK     | 7782 | 1982-01-23 | 1300.00 |    NULL |     10 | NULL |
++-------+--------+-----------+------+------------+---------+---------+--------+------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME, DATE_FORMAT(HIREDATE, '%d-%m-%Y') AS HIREDATE_FORMATTED
+       FROM EMP;
++--------+--------------------+
+| ENAME  | HIREDATE_FORMATTED |
++--------+--------------------+
+| SMITH  | NULL               |
+| ALLEN  | 20-02-1981         |
+| WARD   | 22-02-1981         |
+| JONES  | 02-04-1981         |
+| MARTIN | 28-09-1981         |
+| BLAKE  | 01-05-1981         |
+| CLARK  | 09-06-1981         |
+| SCOTT  | 09-12-1982         |
+| KING   | 17-11-1981         |
+| TURNER | 08-09-1981         |
+| ADAMS  | 12-01-1983         |
+| JAMES  | 03-12-1981         |
+| FORD   | 03-12-1981         |
+| MILLER | 23-01-1982         |
++--------+--------------------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME, DATEDIFF(CURDATE(), HIREDATE) AS DAYS_SINCE_HIRED
+       FROM EMP;
++--------+------------------+
+| ENAME  | DAYS_SINCE_HIRED |
++--------+------------------+
+| SMITH  |             NULL |
+| ALLEN  |            15951 |
+| WARD   |            15949 |
+| JONES  |            15910 |
+| MARTIN |            15731 |
+| BLAKE  |            15881 |
+| CLARK  |            15842 |
+| SCOTT  |            15294 |
+| KING   |            15681 |
+| TURNER |            15751 |
+| ADAMS  |            15260 |
+| JAMES  |            15665 |
+| FORD   |            15665 |
+| MILLER |            15614 |
++--------+------------------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME, HIREDATE
+       FROM EMP
+       WHERE YEAR(HIREDATE) = 1981;
++--------+------------+
+| ENAME  | HIREDATE   |
++--------+------------+
+| ALLEN  | 1981-02-20 |
+| WARD   | 1981-02-22 |
+| JONES  | 1981-04-02 |
+| MARTIN | 1981-09-28 |
+| BLAKE  | 1981-05-01 |
+| CLARK  | 1981-06-09 |
+| KING   | 1981-11-17 |
+| TURNER | 1981-09-08 |
+| JAMES  | 1981-12-03 |
+| FORD   | 1981-12-03 |
++--------+------------+
+10 rows in set (0.03 sec)
+
+mysql> SELECT ENAME, MONTH(HIREDATE) AS HIRE_MONTH, DAY(HIREDATE) AS HIRE_DAY
+       FROM EMP;
++--------+------------+----------+
+| ENAME  | HIRE_MONTH | HIRE_DAY |
++--------+------------+----------+
+| SMITH  |       NULL |     NULL |
+| ALLEN  |          2 |       20 |
+| WARD   |          2 |       22 |
+| JONES  |          4 |        2 |
+| MARTIN |          9 |       28 |
+| BLAKE  |          5 |        1 |
+| CLARK  |          6 |        9 |
+| SCOTT  |         12 |        9 |
+| KING   |         11 |       17 |
+| TURNER |          9 |        8 |
+| ADAMS  |          1 |       12 |
+| JAMES  |         12 |        3 |
+| FORD   |         12 |        3 |
+| MILLER |          1 |       23 |
++--------+------------+----------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT ENAME, HIREDATE
+       FROM EMP
+       ORDER BY HIREDATE DESC
+       LIMIT 1;
++-------+------------+
+| ENAME | HIREDATE   |
++-------+------------+
+| ADAMS | 1983-01-12 |
++-------+------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT ENAME, HIREDATE
+       FROM EMP
+       WHERE HIREDATE >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH);
+Empty set (0.01 sec)
+
+mysql> SELECT ENAME, SAL
+       FROM EMP
+       WHERE SAL > (SELECT SAL FROM EMP WHERE ENAME = 'WARD');
++--------+---------+
+| ENAME  | SAL     |
++--------+---------+
+| ALLEN  | 1600.00 |
+| JONES  | 2975.00 |
+| BLAKE  | 2850.00 |
+| CLARK  | 2450.00 |
+| SCOTT  | 3000.00 |
+| KING   | 5000.00 |
+| TURNER | 1500.00 |
+| FORD   | 3000.00 |
+| MILLER | 1300.00 |
++--------+---------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT ENAME, HIREDATE
+       FROM EMP
+       WHERE HIREDATE > (SELECT HIREDATE FROM EMP WHERE ENAME = 'JONES');
++--------+------------+
+| ENAME  | HIREDATE   |
++--------+------------+
+| MARTIN | 1981-09-28 |
+| BLAKE  | 1981-05-01 |
+| CLARK  | 1981-06-09 |
+| SCOTT  | 1982-12-09 |
+| KING   | 1981-11-17 |
+| TURNER | 1981-09-08 |
+| ADAMS  | 1983-01-12 |
+| JAMES  | 1981-12-03 |
+| FORD   | 1981-12-03 |
+| MILLER | 1982-01-23 |
++--------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT DEPTNO, COUNT(*) AS EMPLOYEE_COUNT
+       FROM EMP
+       GROUP BY DEPTNO
+       HAVING COUNT(*) > 3;
++--------+----------------+
+| DEPTNO | EMPLOYEE_COUNT |
++--------+----------------+
+|     20 |              5 |
+|     30 |              6 |
++--------+----------------+
+2 rows in set (0.03 sec)
+
+mysql> SELECT ENAME, SAL
+       FROM EMP
+       WHERE SAL = (SELECT SAL FROM EMP WHERE ENAME = 'FORD');
++-------+---------+
+| ENAME | SAL     |
++-------+---------+
+| SCOTT | 3000.00 |
+| FORD  | 3000.00 |
++-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT MAX(SAL) AS SECOND_HIGHEST_SALARY
+       FROM EMP
+       WHERE SAL < (SELECT MAX(SAL) FROM EMP);
++-----------------------+
+| SECOND_HIGHEST_SALARY |
++-----------------------+
+|               3000.00 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MGR.ENAME AS MANAGER, SUB.ENAME AS SUBORDINATE
+       FROM EMP SUB
+       JOIN EMP MGR ON SUB.MGR = MGR.EMPNO;
++---------+-------------+
+| MANAGER | SUBORDINATE |
++---------+-------------+
+| FORD    | SMITH       |
+| BLAKE   | ALLEN       |
+| BLAKE   | WARD        |
+| KING    | JONES       |
+| BLAKE   | MARTIN      |
+| KING    | BLAKE       |
+| KING    | CLARK       |
+| JONES   | SCOTT       |
+| BLAKE   | TURNER      |
+| SCOTT   | ADAMS       |
+| BLAKE   | JAMES       |
+| JONES   | FORD        |
+| CLARK   | MILLER      |
++---------+-------------+
+13 rows in set (0.00 sec)
+
+mysql> SELECT SUB.ENAME, MGR.SAL AS MANAGER_SALARY
+       FROM EMP SUB
+       JOIN EMP MGR ON SUB.MGR = MGR.EMPNO
+       WHERE MGR.SAL > 3000;
++-------+----------------+
+| ENAME | MANAGER_SALARY |
++-------+----------------+
+| JONES |        5000.00 |
+| BLAKE |        5000.00 |
+| CLARK |        5000.00 |
++-------+----------------+
+3 rows in set (0.00 sec)
+
+mysql>
